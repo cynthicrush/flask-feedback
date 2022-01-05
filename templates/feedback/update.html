@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}<h1>Update Feedback</h1>{% endblock %}
+
+{% block content %}
+<form id='update-feedback-form' method='POST'>
+  {{ form.hidden_tag() }}
+  {% for field in form
+     if field.widget.input_type != 'hidden' %}
+
+  <p>
+    {{ field.label(class="form-label mt-4") }}
+    {{ field(class="form-control") }}
+  </p>
+  
+  {% for error in field.errors %}
+  <span class="text-danger">{{ error }}</span>
+  {% endfor %}
+  
+  {% endfor %}
+
+  <button formaction='/feedback/{{ feedback.id }}/update' formmethod='POST' class="btn btn-primary">Update</button>
+</form>
+{% endblock %}
