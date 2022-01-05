@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}<h2 class="text-success">Welcome, <em>{{ user.username }}</em>!</h2>{% endblock %}
+
+{% block content %}
+<p>First Name: <strong>{{ user.first_name }}</strong></p>
+<p>Last Name: <strong>{{ user.last_name }}</strong></p>
+<p>Email: <strong>{{ user.email }}</strong></p>
+
+<form>
+  <button formaction="/users/{{user.username}}/delete" formmethod='POST' class="btn btn-danger">Delete User</button>
+</form>
+
+<section>
+  <h4 class="text-warning" style='margin-top: 30px;'>Feedback</h4>
+  <ul>
+    {% for fb in feedback %}
+    <li>
+      <a href="/feedback/{{ fb.id }}/update" style='text-decoration: none;'><strong>{{ fb.title }}</strong></a>
+      <p>{{ fb.content }}</p>
+      <form>
+        <button formaction='/feedback/{{ fb.id }}/delete' formmethod='POST' class="btn btn-primary btn-sm" style='display: inline; margin-left: 10px;'>X</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  <a href="/users/{{user.username}}/feedback/add" class="btn btn-info btn-sm">Add a Feedback</a>
+</section>
+
+{% endblock %}
