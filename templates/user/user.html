@@ -17,9 +17,9 @@
     {% for fb in feedback %}
     <li>
       <a href="/feedback/{{ fb.id }}/update" style='text-decoration: none;'><strong>{{ fb.title }}</strong></a>
-      <p>{{ fb.content }}</p>
-      <form>
-        <button formaction='/feedback/{{ fb.id }}/delete' formmethod='POST' class="btn btn-primary btn-sm" style='display: inline; margin-left: 10px;'>X</button>
+      <div>{{ fb.content }}</div>
+      <form style='margin-bottom: 20px;'>
+        <button formaction='/feedback/{{ fb.id }}/delete' formmethod='POST' class="btn btn-primary btn-sm">X</button>
       </form>
     </li>
     {% endfor %}
