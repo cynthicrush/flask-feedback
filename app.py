@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, session
 from models import db, connect_db, User, Feedback
-from forms import DeleteFeedbackForm, RegisterForm, LoginForm, FeedbackForm
+from forms import RegisterForm, LoginForm, FeedbackForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 
@@ -74,8 +74,7 @@ def show_user(username):
 
   user = User.query.get_or_404(username)
   feedback = Feedback.query.filter(Feedback.username == username).all()
-  form = DeleteFeedbackForm()
-  return render_template('/user/user.html', user=user, feedback=feedback, form=form)
+  return render_template('/user/user.html', user=user, feedback=feedback)
 
 @app.route('/users/<username>/delete', methods=['POST'])
 def delete_user(username):
@@ -135,15 +134,12 @@ def delete_feedback(feedback_id):
   '''Handle delete feedback.'''
 
   feedback = Feedback.query.get(feedback_id)
-
+  print(feedback)
   if 'username' not in session or feedback.username != session['username']:
     raise Unauthorized()
 
-  form = DeleteFeedbackForm()
-
-  if form.validate_on_submit():
-    db.session.delete(feedback)
-    db.session.commit()
+  db.session.delete(feedback)
+  db.session.commit()
 
   return redirect(f'/users/{feedback.username}')
 
